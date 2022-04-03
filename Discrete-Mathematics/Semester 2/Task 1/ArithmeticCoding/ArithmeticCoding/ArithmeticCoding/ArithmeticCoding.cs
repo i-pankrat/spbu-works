@@ -2,6 +2,10 @@
 {
     public class ArithmeticCoding
     {
+        private const int uppedBond = 1000000000;
+        private const int roundBond = uppedBond / 10;
+        private const int roundingAccuracy = 5;
+        private const int len = 9; // number  of zeros in upperBond
         public Dictionary<string, int> Frequency { get; private set; }
         private int counter;
 
@@ -30,43 +34,27 @@
             counter++;
             Frequency = Frequency.OrderBy(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);
 
-            /*Frequency = new Dictionary<string, int>();
-            Frequency.Add("<EOF>", 1);
-            Frequency.Add("_", 1);
-            Frequency.Add("M", 1);
-            Frequency.Add("I", 2);
-            Frequency.Add("W", 1);
-            Frequency.Add("S", 5);
-            counter = 11;*/
-
-            // NewHigh = OldLow + (OldHigh-OldLow)*HighRange(X),
-
-            // NewLow = OldLow + (OldHigh - OldLow) * LowRange(X),
-
-            // Code = (Code-LowRange(X))/(HighRange(X)-LowRange(X))
-
-
             string result = String.Empty;
-            int oldHigh = 1000000000;
+            int oldHigh = uppedBond;
             int oldLow = 0;
             
             for (int i = 0; i < source.Length + 1; i++)
             {
                 string symbol = i == source.Length ? "<EOF>" : source[i].ToString();
+
                 double[] range = GetRange(symbol);
                 double lowRange = range[0];
                 double highRange = range[1];
 
-                int tempNewHigh = (int)(oldLow + (oldHigh - oldLow) * highRange);
-                int newHigh = tempNewHigh - 1;
-                int tempNewLow = (int)(oldLow + (oldHigh - oldLow) * lowRange);
-                int newLow = tempNewLow;
+                int newHigh = (int)(oldLow + (oldHigh - oldLow) * highRange);
+                int newLow = (int)(oldLow + (oldHigh - oldLow) * lowRange);
+                newHigh--;
 
-                while (newHigh / 100000000 == newLow / 100000000)
+                while (newHigh / roundBond == newLow / roundBond)
                 {
-                    result += (newHigh / 100000000).ToString();
-                    newHigh = newHigh % 100000000 * 10 + 9;
-                    newLow = newLow % 100000000 * 10;
+                    result += (newHigh / roundBond).ToString();
+                    newHigh = newHigh % roundBond * 10 + 9;
+                    newLow = newLow % roundBond * 10;
                 }
 
                 newHigh++;
@@ -75,22 +63,6 @@
             }
 
             result += oldLow.ToString();
-            /*
-            byte[] bytes = Encoding.ASCII.GetBytes(result);
-            result = String.Empty;
-
-            foreach (var element in bytes)
-            {
-                string temp = Convert.ToString(element, 2);
-
-                while (temp.Length < 8)
-                {
-                    temp = "0" + temp;
-                }
-
-                result +=  temp;
-            }
-            */
             return result;
         }
 
@@ -105,66 +77,40 @@
             }
 
             string result = String.Empty;
-            /*byte[] symbolCodes = new byte[source.Length / 8];
+            int code = Convert.ToInt32(source.Substring(0, len));
+            source = source.Substring(len);
 
-            for (int i = 0; i < source.Length; i += 8)
-            {
-                string temp = source.Substring(i, 8);
-                symbolCodes[i / 8] = Convert.ToByte(temp, 2);
-            }
-
-            source = Encoding.ASCII.GetString(symbolCodes);*/
-            int code = Convert.ToInt32(source.Substring(0, 9));
-            source = source.Substring(9);
-
-            // Code = ((Code-LowRange) * 10 - 1)/(HighRange-LowRange + 1)
-
-            int oldHigh = 1000000000;
+            int oldHigh = uppedBond;
             int oldLow = 0;
             string symbol = String.Empty;
 
-            while (result.Length != counter - 1)
+            while (result.Length != counter - 1 && symbol !=  "<EOF>")
             {
-
-                if (result.Length == counter - 2)
-                {
-                    Console.WriteLine("I'm here!");
-                }
-
-                double index = ((double)(code - oldLow)) / (oldHigh - oldLow);
+                double index = Math.Round((double)(code - oldLow - 1) / (oldHigh - oldLow + 1), roundingAccuracy);
                 symbol = GetSymbol(oldLow, oldHigh, index);
-
-                if (symbol == "<EOF>")
-                {
-                    break;
-                }
-                
-
                 result += symbol;
-                double[] range = GetRange(symbol);
 
+                double[] range = GetRange(symbol);
                 double lowRange = range[0];
                 double highRange = range[1];
+
                 int newHigh = (int)(oldLow + (oldHigh - oldLow) * highRange);
                 int newLow = (int)(oldLow + (oldHigh - oldLow) * lowRange);
 
-                
                 newHigh--;
 
-                while (newHigh / 100000000 == newLow / 100000000)
+                while (newHigh / roundBond == newLow / roundBond)
                 {
-                    newHigh = newHigh % 100000000 * 10 + 9;
-                    newLow = newLow % 100000000 * 10;
-                    code = code % 100000000 * 10 + Convert.ToInt32(source.Substring(0, 1));
+                    newHigh = newHigh % roundBond * 10 + 9;
+                    newLow = newLow % roundBond * 10;
+                    code = code % roundBond * 10 + Convert.ToInt32(source.Substring(0, 1));
                     source = source.Substring(1);
                 }
 
                 newHigh++;
-
                 oldHigh = newHigh;
                 oldLow = newLow;
             }
-
 
             return result;
         }
@@ -185,12 +131,12 @@
                 }
             }
 
-            result[0] = sum / counter;
-            result[1] = (sum + Frequency[symbol]) / counter;
+            result[0] = Math.Round(sum / counter, roundingAccuracy);
+            result[1] = Math.Round((sum + Frequency[symbol]) / counter, roundingAccuracy);
 
             return result;
         }
-        // index 0.45370369684405149 end 0.45370370370370372
+
         private string GetSymbol(int low, int high, double index)
         {
             double sum = 0;
@@ -198,13 +144,9 @@
 
             foreach (var pair in Frequency)
             {
-                double currentEnd = (sum + pair.Value) / counter;
-                // int newHigh = (int)(low + (high - low) * currentEnd);
-                // int newLow = (int)(low + (high - low) * sum / counter);
+                double currentEnd = Math.Round((sum + pair.Value) / counter, roundingAccuracy);
 
-                // newHigh > index && newLow < index
-                double temp = (index - low) / (high - low);
-                if (sum / counter <= index && index < currentEnd)
+                if (Math.Round(sum / counter, roundingAccuracy) <= index && index < currentEnd)
                 {
                     result = pair.Key;
                     break;

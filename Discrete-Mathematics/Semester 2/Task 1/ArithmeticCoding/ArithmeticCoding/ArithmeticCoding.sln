@@ -5,7 +5,9 @@ VisualStudioVersion = 17.1.32228.430
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArithmeticCoding", "ArithmeticCoding\ArithmeticCoding.csproj", "{C65C0E06-8DC8-403B-9D87-C3F8228FD962}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Task 4.8", "Task 4.8\Task 4.8.csproj", "{D1784DA4-A044-4AF4-BD8B-061A9A5C3538}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Task 4.8", "Task 4.8\Task 4.8.csproj", "{D1784DA4-A044-4AF4-BD8B-061A9A5C3538}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArithmeticCoding.UnitTests", "ArithmeticCoding.UnitTests\ArithmeticCoding.UnitTests.csproj", "{B37B9BB1-C03C-4B89-99D2-5DE3298638EF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{D1784DA4-A044-4AF4-BD8B-061A9A5C3538}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D1784DA4-A044-4AF4-BD8B-061A9A5C3538}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D1784DA4-A044-4AF4-BD8B-061A9A5C3538}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B37B9BB1-C03C-4B89-99D2-5DE3298638EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B37B9BB1-C03C-4B89-99D2-5DE3298638EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B37B9BB1-C03C-4B89-99D2-5DE3298638EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B37B9BB1-C03C-4B89-99D2-5DE3298638EF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
