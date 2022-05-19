@@ -44,18 +44,18 @@ namespace Geometry
 
             return new List<Edge>
             {
-                new Edge((PointProjection(points[0])), PointProjection(points[1])),
-                new Edge((PointProjection(points[1])), PointProjection(points[2])),
-                new Edge((PointProjection(points[2])), PointProjection(points[3])),
-                new Edge((PointProjection(points[3])), PointProjection(points[0])),
+                new Edge(PointProjection(points[0]), PointProjection(points[1])),
+                new Edge(PointProjection(points[1]), PointProjection(points[2])),
+                new Edge(PointProjection(points[2]), PointProjection(points[3])),
+                new Edge(PointProjection(points[3]), PointProjection(points[0])),
                 new Edge(PointProjection(points[0]), PointProjection(points[4])),
-                new Edge((PointProjection(points[1])), PointProjection(points[5])),
-                new Edge((PointProjection(points[2])), PointProjection(points[6])),
-                new Edge((PointProjection(points[3])), PointProjection(points[7])),
-                new Edge((PointProjection(points[4])), PointProjection(points[5])),
-                new Edge((PointProjection(points[5])), PointProjection(points[6])),
-                new Edge((PointProjection(points[6])), PointProjection(points[7])),
-                new Edge((PointProjection(points[4])), PointProjection(points[7]))
+                new Edge(PointProjection(points[1]), PointProjection(points[5])),
+                new Edge(PointProjection(points[2]), PointProjection(points[6])),
+                new Edge(PointProjection(points[3]), PointProjection(points[7])),
+                new Edge(PointProjection(points[4]), PointProjection(points[5])),
+                new Edge(PointProjection(points[5]), PointProjection(points[6])),
+                new Edge(PointProjection(points[6]), PointProjection(points[7])),
+                new Edge(PointProjection(points[4]), PointProjection(points[7]))
             };
         }
 
@@ -74,20 +74,20 @@ namespace Geometry
 
             var a = A;
             var b = A + AB;
-            var c = A + AD;
-            var d = A + AD + AB;
-            var s = a + (d - a) / 2 + AE;
+            var c = A + AB + AD;
+            var d = A + AD;
+            var s = a + (d - a) / 2 + (Math.Pow(2, 1/2) / 2) * AE;
 
             return new List<Edge>
             {
-                new Edge((PointProjection(a)), PointProjection(b)),
-                new Edge((PointProjection(b)), PointProjection(c)),
-                new Edge((PointProjection(c)), PointProjection(d)),
-                new Edge((PointProjection(a)), PointProjection(d)),
-                new Edge((PointProjection(a)), PointProjection(s)),
-                new Edge((PointProjection(b)), PointProjection(s)),
-                new Edge((PointProjection(c)), PointProjection(s)),
-                new Edge((PointProjection(d)), PointProjection(s)),
+                new Edge(PointProjection(a), PointProjection(b)),
+                new Edge(PointProjection(b), PointProjection(c)),
+                new Edge(PointProjection(c), PointProjection(d)),
+                new Edge(PointProjection(a), PointProjection(d)),
+                new Edge(PointProjection(a), PointProjection(s)),
+                new Edge(PointProjection(b), PointProjection(s)),
+                new Edge(PointProjection(c), PointProjection(s)),
+                new Edge(PointProjection(d), PointProjection(s))
             };
         }
 
@@ -106,17 +106,17 @@ namespace Geometry
 
             var a = A;
             var b = A + AB;
-            var c = A + AB / 2 + (Math.Pow(3, 1 / 2) / 2) * AD;
-            var d = A + AB / 2 + 1 / 3 * AD + Math.Pow(2 / 3, 1 / 2) * AE;
+            var c = A + AB / 2 + (Math.Sqrt(3) / 2) * AD;
+            var d = A + AB / 2 + (Math.Sqrt(3) / 6) * AD + Math.Pow(2 / 3, 1 / 2) * AE;
 
             return new List<Edge>
             {
-                new Edge((PointProjection(a)), PointProjection(b)),
-                new Edge((PointProjection(b)), PointProjection(c)),
-                new Edge((PointProjection(c)), PointProjection(a)),
-                new Edge((PointProjection(a)), PointProjection(d)),
-                new Edge((PointProjection(b)), PointProjection(d)),
-                new Edge((PointProjection(c)), PointProjection(d)),
+                new Edge(PointProjection(a), PointProjection(b)),
+                new Edge(PointProjection(b), PointProjection(c)),
+                new Edge(PointProjection(c), PointProjection(a)),
+                new Edge(PointProjection(a), PointProjection(d)),
+                new Edge(PointProjection(b), PointProjection(d)),
+                new Edge(PointProjection(c), PointProjection(d))
             };
         }
 

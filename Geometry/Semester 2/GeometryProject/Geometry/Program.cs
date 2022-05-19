@@ -6,7 +6,7 @@ namespace Geometry
     {
         public static void Main()
         {
-            string[]? input = null;
+            string[]? input;
 
             while (true)
             {
@@ -25,6 +25,8 @@ namespace Geometry
                 var C = new Point3D(int.Parse(input[0]), int.Parse(input[1]), int.Parse(input[2]));
 
                 var cube = Geometry.GetVertexsCube(A, B, C);
+
+                Console.Write("\n");
 
                 if (cube != null)
                 {
